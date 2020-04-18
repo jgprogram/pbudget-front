@@ -1,17 +1,25 @@
 import React from "react";
+import RevenueRow from "./RevenueRow";
+import Revenue from "../model/Revenue";
 
-class Revenue extends React.Component {
+class Revenues extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      amount: null,
+      amount: 2000,
       account: "mBank",
-      source: "Firma x"
+      source: "Company x",
+      description: "Salary",
+      revenues: [
+        new Revenue(3250, "mBank", "Vattenfall", "Salary"),
+        new Revenue(1200, "mBank", "ZUS", "Refund")
+      ]
     };
   }
 
   addNewRevenue = () => {
-    console.log(JSON.stringify(this.state, null, 2));
+    const revenue = new Revenue(this.state.amount, this.state.account, this.state.source, this.state.description);
+    this.setState({ revenues: [...this.state.revenues, revenue] });
   };
 
   updateAmount = (event) => {
@@ -26,29 +34,23 @@ class Revenue extends React.Component {
     this.setState({ source: event.target.value });
   };
 
+  updateDescription = (event) => {
+    this.setState({ description: event.target.value });
+  };
+
   render() {
-    const revenue = [
-      {
-        amount: 3250,
-        account: "mBank",
-        source: "Vattenfall"
-      },
-      {
-        amount: 1200,
-        account: "mBank",
-        source: "Firma ZUS"
-      }
-    ];
+    const revenueRows = this.state.revenues.map(revenue => <RevenueRow key={revenue.id} revenue={revenue}/>);
 
     return (
       <div className="revenue-cmp">
-        <h3>Revenue</h3>
+        <h3>Revenues</h3>
         <table>
           <thead>
           <tr>
             <th>Amount</th>
             <th>Account</th>
             <th>Source</th>
+            <th>Description</th>
           </tr>
           <tr>
             <td>
@@ -61,12 +63,15 @@ class Revenue extends React.Component {
               <input type="text" value={this.state.source} onChange={this.updateSource}/>
             </td>
             <td>
+              <input type="text" value={this.state.description} onChange={this.updateDescription}/>
+            </td>
+            <td>
               <button onClick={this.addNewRevenue}>+</button>
             </td>
           </tr>
           </thead>
           <tbody>
-
+          {revenueRows}
           </tbody>
         </table>
         <div className="add-revenue">
@@ -77,4 +82,4 @@ class Revenue extends React.Component {
   }
 }
 
-export default Revenue;
+export default Revenues;
