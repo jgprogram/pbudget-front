@@ -66,7 +66,7 @@ class Revenues extends React.Component {
                             <input type="text" value={this.state.description} onChange={this.updateDescription}/>
                         </td>
                         <td>
-                            <button onClick={this.addNewRevenue}>+</button>
+                            <button className={'addButton'} onClick={this.addNewRevenue}>+</button>
                         </td>
                     </tr>
                     </thead>
